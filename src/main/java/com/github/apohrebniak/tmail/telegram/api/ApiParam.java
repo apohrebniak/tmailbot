@@ -6,7 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum ApiParam {
-  URL("telegramUrl"),
+  URL("url"),
   MAX_CONNECTIONS("max_connections"),
   ALLOWED_UPDATES("allowed_updates");
 

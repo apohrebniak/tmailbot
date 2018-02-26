@@ -18,7 +18,7 @@ public class UpdateController {
 
   @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public void update(Update update) {
-    log.debug(update.toString());
+    log.info(update.toString());
     tmail.onUpdate(update);
   }
 }

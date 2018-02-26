@@ -35,7 +35,8 @@ public class WebHookInitializer implements InitializingBean {
         .queryParam(ApiParam.URL.getName(), "")
         .build()
         .toUri();
-    template.exchange(RequestEntity.post(uri).build(), String.class);
+    String result = template.exchange(RequestEntity.post(uri).build(), String.class).getBody();
+    log.info(result);
   }
 
   private void setUpNewWebHook() {
@@ -45,6 +46,8 @@ public class WebHookInitializer implements InitializingBean {
         .queryParam(ApiParam.URL.getName(), properties.getUpdateUri())
         .queryParam(ApiParam.ALLOWED_UPDATES.getName(), ApiValue.MESSAGE.getValue())
         .build().toUri();
-    template.exchange(RequestEntity.get(uri).build(), String.class);
+    System.out.println(uri.toString());
+    String result = template.exchange(RequestEntity.get(uri).build(), String.class).getBody();
+    log.info(result);
   }
 }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class User {
 
-  private Integer id;
+  private Long id;
   private String username;
   @JsonProperty("language_code")
   private String languageCode;
