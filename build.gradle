@@ -30,7 +30,6 @@ repositories {
 
 dependencies {
     compile project(':core')
-    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
     compile('org.springframework.boot:spring-boot-starter-data-redis')
     compile('org.springframework.boot:spring-boot-starter-web') {
         exclude module: ('spring-boot-starter-tomcat')

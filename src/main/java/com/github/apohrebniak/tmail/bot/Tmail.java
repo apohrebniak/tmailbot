@@ -1,4 +1,4 @@
-package com.github.apohrebniak.tmail;
+package com.github.apohrebniak.tmail.bot;
 
 import com.github.apohrebniak.tmail.core.command.Command;
 import com.github.apohrebniak.tmail.core.command.CommandGateway;

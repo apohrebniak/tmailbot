@@ -1,4 +1,4 @@
-package com.github.apohrebniak.tmail;
+package com.github.apohrebniak.tmail.bot;
 
 import com.github.apohrebniak.tmail.core.command.CommandGateway;
 import com.github.apohrebniak.tmail.core.command.CommandGatewayImpl;
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class TmailConfiguration {
+public class BotConfiguration {
 
   @Bean
   public CommandGateway commandGateway() {

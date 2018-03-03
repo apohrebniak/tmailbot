@@ -1,4 +1,4 @@
-package com.github.apohrebniak.tmail;
+package com.github.apohrebniak.tmail.bot;
 
 public class CommandNotSupportedException extends RuntimeException {
 

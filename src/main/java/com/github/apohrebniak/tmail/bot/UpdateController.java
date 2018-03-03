@@ -1,4 +1,4 @@
-package com.github.apohrebniak.tmail;
+package com.github.apohrebniak.tmail.bot;
 
 import com.github.apohrebniak.tmail.telegram.api.Update;
 import lombok.extern.slf4j.Slf4j;

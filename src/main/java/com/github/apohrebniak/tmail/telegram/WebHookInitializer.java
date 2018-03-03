@@ -1,6 +1,6 @@
 package com.github.apohrebniak.tmail.telegram;
 
-import com.github.apohrebniak.tmail.TmailProperties;
+import com.github.apohrebniak.tmail.bot.TmailProperties;
 import com.github.apohrebniak.tmail.telegram.api.ApiMethod;
 import com.github.apohrebniak.tmail.telegram.api.ApiParam;
 import com.github.apohrebniak.tmail.telegram.api.ApiValue;
