@@ -1,11 +1,11 @@
-package com.github.apohrebniak.tmail.bot;
+package com.github.apohrebniak.tmail.api.bot;
 
+import com.github.apohrebniak.tmail.api.telegram.Message;
+import com.github.apohrebniak.tmail.api.telegram.Update;
 import com.github.apohrebniak.tmail.core.command.Command;
 import com.github.apohrebniak.tmail.core.command.CommandGateway;
 import com.github.apohrebniak.tmail.core.command.CreateMailBoxCommand;
 import com.github.apohrebniak.tmail.core.command.GetTimeCommand;
-import com.github.apohrebniak.tmail.telegram.api.Message;
-import com.github.apohrebniak.tmail.telegram.api.Update;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

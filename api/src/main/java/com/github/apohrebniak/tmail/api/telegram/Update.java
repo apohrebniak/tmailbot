@@ -1,4 +1,4 @@
-package com.github.apohrebniak.tmail.telegram.api;
+package com.github.apohrebniak.tmail.api.telegram;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

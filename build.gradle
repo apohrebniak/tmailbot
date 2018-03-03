@@ -12,28 +12,40 @@ buildscript {
     }
 }
 
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
 
 group = 'com.github.apohrebniak'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 9
+//sourceCompatibility = 9
 
-repositories {
-    mavenCentral()
-    maven { url "https://repo.spring.io/snapshot" }
-    maven { url "https://repo.spring.io/milestone" }
+allprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'org.springframework.boot'
+
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+
+    dependencies {
+        compile('org.springframework.boot:spring-boot-starter-data-redis')
+        compile('org.springframework.boot:spring-boot-starter-web') {
+            exclude module: ('spring-boot-starter-tomcat')
+        }
+        compile('org.subethamail:subethasmtp:3.1.7')
+
+        compileOnly('org.projectlombok:lombok')
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+    }
 }
-
 
 dependencies {
     compile project(':core')
-    compile('org.springframework.boot:spring-boot-starter-data-redis')
-    compile('org.springframework.boot:spring-boot-starter-web') {
-        exclude module: ('spring-boot-starter-tomcat')
-    }
+    compile project(':api')
+    compile project(':mail')
     compile('org.springframework.boot:spring-boot-starter-undertow')
     compileOnly('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')

@@ -1,9 +1,9 @@
-package com.github.apohrebniak.tmail.telegram;
+package com.github.apohrebniak.tmail.api;
 
-import com.github.apohrebniak.tmail.bot.TmailProperties;
-import com.github.apohrebniak.tmail.telegram.api.ApiMethod;
-import com.github.apohrebniak.tmail.telegram.api.ApiParam;
-import com.github.apohrebniak.tmail.telegram.api.ApiValue;
+import com.github.apohrebniak.tmail.api.bot.TmailProperties;
+import com.github.apohrebniak.tmail.api.telegram.ApiMethod;
+import com.github.apohrebniak.tmail.api.telegram.ApiParam;
+import com.github.apohrebniak.tmail.api.telegram.ApiValue;
 import java.net.URI;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

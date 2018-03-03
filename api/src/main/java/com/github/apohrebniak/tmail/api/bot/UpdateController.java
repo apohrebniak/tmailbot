@@ -1,6 +1,6 @@
-package com.github.apohrebniak.tmail.bot;
+package com.github.apohrebniak.tmail.api.bot;
 
-import com.github.apohrebniak.tmail.telegram.api.Update;
+import com.github.apohrebniak.tmail.api.telegram.Update;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

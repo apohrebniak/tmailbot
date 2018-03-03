@@ -1,6 +1,6 @@
-package com.github.apohrebniak.tmail.bot;
+package com.github.apohrebniak.tmail.api.bot;
 
-import com.github.apohrebniak.tmail.telegram.api.Message;
+import com.github.apohrebniak.tmail.api.telegram.Message;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

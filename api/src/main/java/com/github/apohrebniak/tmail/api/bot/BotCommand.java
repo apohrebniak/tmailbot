@@ -1,4 +1,4 @@
-package com.github.apohrebniak.tmail.bot;
+package com.github.apohrebniak.tmail.api.bot;
 
 import java.util.Arrays;
 import java.util.Map;

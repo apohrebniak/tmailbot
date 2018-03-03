@@ -1,4 +1,4 @@
-package com.github.apohrebniak.tmail.telegram.api;
+package com.github.apohrebniak.tmail.api.telegram;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.github.apohrebniak.tmail.bot;
+package com.github.apohrebniak.tmail.api.bot;
 
 import java.net.URI;
 import lombok.Data;
@@ -21,7 +21,7 @@ public class TmailProperties {
     return UriComponentsBuilder.newInstance()
         .scheme("https")
         .host(telegramUrl)
-        .pathSegment("bot" + token)
+        .pathSegment("com/github/apohrebniak/tmail/api/bot" + token)
         .build()
         .toUri();
   }
