@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Configuration
-@ConfigurationProperties(prefix = "tmail")
+@ConfigurationProperties(prefix = "tmail.bot")
 @Data
-public class TmailProperties {
+public class BotProperties {
 
   private String token;
 
@@ -21,7 +21,7 @@ public class TmailProperties {
     return UriComponentsBuilder.newInstance()
         .scheme("https")
         .host(telegramUrl)
-        .pathSegment("com/github/apohrebniak/tmail/api/bot" + token)
+        .pathSegment("/bot" + token)
         .build()
         .toUri();
   }

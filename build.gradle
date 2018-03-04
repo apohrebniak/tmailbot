@@ -36,7 +36,9 @@ allprojects {
             exclude module: ('spring-boot-starter-tomcat')
         }
         compile('org.subethamail:subethasmtp:3.1.7')
-
+        compile('redis.clients:jedis:2.9.0')
+        // https://mvnrepository.com/artifact/com.google.guava/guava
+        compile('com.google.guava:guava:24.0-jre')
         compileOnly('org.projectlombok:lombok')
         testCompile('org.springframework.boot:spring-boot-starter-test')
     }
@@ -47,6 +49,6 @@ dependencies {
     compile project(':api')
     compile project(':mail')
     compile('org.springframework.boot:spring-boot-starter-undertow')
-    compileOnly('org.projectlombok:lombok')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

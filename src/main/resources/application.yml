@@ -1,4 +1,11 @@
 tmail:
-  token: ${TOKEN}
-  host: ${HOST}
-  telegram_url: ${TELEGRAM_URL}
+  bot:
+    token: ${TOKEN}
+    host: ${HOST}
+    telegram_url: ${TELEGRAM_URL}
+  smtp:
+    port: 2222
+  redis:
+    host: localhost
+    port: 6379
+    ttl: 1

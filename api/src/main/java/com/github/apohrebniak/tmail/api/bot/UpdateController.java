@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("${tmail.token}")
+@RequestMapping("${tmail.bot.token}")
 @Slf4j
 public class UpdateController {
 

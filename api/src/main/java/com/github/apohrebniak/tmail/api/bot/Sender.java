@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 public class Sender {
 
   private RestTemplate restTemplate;
-  private TmailProperties properties;
+  private BotProperties properties;
 
   public void sendMessage(Message message) {
   }

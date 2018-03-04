@@ -1,6 +1,6 @@
 package com.github.apohrebniak.tmail.api;
 
-import com.github.apohrebniak.tmail.api.bot.TmailProperties;
+import com.github.apohrebniak.tmail.api.bot.BotProperties;
 import com.github.apohrebniak.tmail.api.telegram.ApiMethod;
 import com.github.apohrebniak.tmail.api.telegram.ApiParam;
 import com.github.apohrebniak.tmail.api.telegram.ApiValue;
@@ -20,7 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class WebHookInitializer implements InitializingBean {
 
   private RestTemplate template;
-  private TmailProperties properties;
+  private BotProperties properties;
 
   @Override
   public void afterPropertiesSet() {
@@ -46,7 +46,6 @@ public class WebHookInitializer implements InitializingBean {
         .queryParam(ApiParam.URL.getName(), properties.getUpdateUri())
         .queryParam(ApiParam.ALLOWED_UPDATES.getName(), ApiValue.MESSAGE.getValue())
         .build().toUri();
-    System.out.println(uri.toString());
     String result = template.exchange(RequestEntity.get(uri).build(), String.class).getBody();
     log.info(result);
   }

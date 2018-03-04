@@ -1,14 +1,18 @@
-package com.gethatch.apohrebniak.tmail.mail;
+package com.github.apohrebniak.tmail.mail;
 
+import com.github.apohrebniak.tmail.core.RecipientRegistry;
+import lombok.AllArgsConstructor;
 import org.subethamail.smtp.MessageContext;
 import org.subethamail.smtp.MessageHandler;
 import org.subethamail.smtp.MessageHandlerFactory;
 
+@AllArgsConstructor
 public class MessageHandlerFactoryImpl implements MessageHandlerFactory {
+
+  private RecipientRegistry recipientRegistry;
 
   @Override
   public MessageHandler create(MessageContext ctx) {
-    System.out.println("Factory at thread: " + Thread.currentThread().getName());
-    return new MessageHandlerImpl();
+    return new MessageHandlerImpl(recipientRegistry);
   }
 }
