@@ -1,6 +1,7 @@
 package com.github.apohrebniak.tmail.core.redis;
 
 import com.google.common.primitives.Longs;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,12 +23,21 @@ public class RedisConfiguration {
   @Value("${tmail.redis.ttl}")
   private Integer ttlMinutes;
 
-  @Bean
-  public RedisTemplate<String, Long> redisTemplate() {
+  @Bean(name = "stringLongRedis")
+  public RedisTemplate<String, Long> redisStringLongTemplate() {
     RedisTemplate<String, Long> template = new RedisTemplate<>();
     template.setConnectionFactory(redisConnectionFactory());
     template.setKeySerializer(new StringRedisSerializer());
     template.setValueSerializer(new LongRedisSerializer());
+    return template;
+  }
+
+  @Bean(name = "longStringRedis")
+  public RedisTemplate<Long, String> redisLongStringTemplate() {
+    RedisTemplate<Long, String> template = new RedisTemplate<>();
+    template.setConnectionFactory(redisConnectionFactory());
+    template.setValueSerializer(new StringRedisSerializer());
+    template.setKeySerializer(new LongRedisSerializer());
     return template;
   }
 
@@ -37,8 +47,15 @@ public class RedisConfiguration {
   }
 
   @Bean
-  public RedisRecipientRegistry redisRecipientRegistry(RedisTemplate redisTemplate) {
-    return new RedisRecipientRegistry(ttlMinutes, redisTemplate);
+  public RedisMailboxRegistry redisRecipientRegistry(
+      @Qualifier("stringLongRedis") RedisTemplate redisTemplate) {
+    return new RedisMailboxRegistry(ttlMinutes, redisTemplate);
+  }
+
+  @Bean
+  public RedisUserRegistry redisUserRegistry(
+      @Qualifier("longStringRedis") RedisTemplate redisTemplate) {
+    return new RedisUserRegistry(redisTemplate);
   }
 
   static class LongRedisSerializer implements RedisSerializer<Long> {

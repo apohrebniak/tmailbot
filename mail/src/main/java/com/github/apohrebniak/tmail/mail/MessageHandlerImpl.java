@@ -1,6 +1,6 @@
 package com.github.apohrebniak.tmail.mail;
 
-import com.github.apohrebniak.tmail.core.RecipientRegistry;
+import com.github.apohrebniak.tmail.core.MailboxRegistry;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -17,7 +17,7 @@ import org.subethamail.smtp.TooMuchDataException;
 @AllArgsConstructor
 public class MessageHandlerImpl implements MessageHandler {
 
-  private RecipientRegistry recipientRegistry;
+  private MailboxRegistry mailboxRegistry;
 
   @Override
   public void from(String from) throws RejectException {
@@ -26,9 +26,9 @@ public class MessageHandlerImpl implements MessageHandler {
 
   @Override
   public void recipient(String recipient) throws RejectException {
-    log.info("Recipient:" + recipient);
+    log.info("MailboxUserPair:" + recipient);
     String recipientId = recipient.substring(0, recipient.indexOf('@'));
-    if (!recipientRegistry.exists(recipientId)) {
+    if (!mailboxRegistry.exists(recipientId)) {
       throw new RejectException();
     }
   }

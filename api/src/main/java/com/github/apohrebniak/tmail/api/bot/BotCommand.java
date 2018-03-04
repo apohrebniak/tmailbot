@@ -2,7 +2,6 @@ package com.github.apohrebniak.tmail.api.bot;
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +10,8 @@ import lombok.Getter;
 @Getter
 public enum BotCommand {
   NEW_MAILBOX("new_mailbox"),
-  GET_TIME("get_time");
+  GET_TIME("get_time"),
+  UNKNOWN("unknown");
 
   static Map<String, BotCommand> map;
 
@@ -22,8 +22,7 @@ public enum BotCommand {
 
   String value;
 
-  public BotCommand byValue(String value) {
-    return Optional.ofNullable(map.get(value))
-        .orElseThrow(CommandNotSupportedException::new);
+  public static BotCommand byValue(String value) {
+    return map.getOrDefault(value, UNKNOWN);
   }
 }

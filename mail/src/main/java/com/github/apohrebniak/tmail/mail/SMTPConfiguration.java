@@ -1,6 +1,6 @@
 package com.github.apohrebniak.tmail.mail;
 
-import com.github.apohrebniak.tmail.core.RecipientRegistry;
+import com.github.apohrebniak.tmail.core.MailboxRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +13,7 @@ public class SMTPConfiguration {
   @Value("${tmail.smtp.port}")
   private Integer smtpPort;
   @Autowired
-  private RecipientRegistry recipientRegistry;
+  private MailboxRegistry mailboxRegistry;
 
   @Bean
   @Autowired
@@ -23,6 +23,6 @@ public class SMTPConfiguration {
 
   @Bean
   public MessageHandlerFactory messageHandlerFactory() {
-    return new MessageHandlerFactoryImpl(recipientRegistry);
+    return new MessageHandlerFactoryImpl(mailboxRegistry);
   }
 }
