@@ -1,6 +1,7 @@
 package com.github.apohrebniak.tmail.mail;
 
 import com.github.apohrebniak.tmail.core.MailboxRegistry;
+import com.google.common.eventbus.EventBus;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -9,6 +10,7 @@ import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.simplejavamail.converter.EmailConverter;
 import org.subethamail.smtp.MessageHandler;
 import org.subethamail.smtp.RejectException;
 import org.subethamail.smtp.TooMuchDataException;
@@ -18,6 +20,7 @@ import org.subethamail.smtp.TooMuchDataException;
 public class MessageHandlerImpl implements MessageHandler {
 
   private MailboxRegistry mailboxRegistry;
+  private EventBus eventBus;
 
   @Override
   public void from(String from) throws RejectException {
@@ -37,8 +40,7 @@ public class MessageHandlerImpl implements MessageHandler {
   public void data(InputStream data) throws RejectException, TooMuchDataException, IOException {
     try {
       MimeMessage mimeMessage = new MimeMessage(Session.getDefaultInstance(new Properties()), data);
-      //check mime type
-      //pass the message somewhere to processing
+      eventBus.post(EmailConverter.mimeMessageToEmail(mimeMessage));
     } catch (MessagingException e) {
       e.printStackTrace();
     }
