@@ -4,13 +4,13 @@ import com.github.apohrebniak.tmail.api.telegram.Message;
 import com.github.apohrebniak.tmail.api.telegram.Update;
 import com.github.apohrebniak.tmail.api.telegram.User;
 import com.github.apohrebniak.tmail.core.MailboxService;
+import com.github.apohrebniak.tmail.core.event.EmailReceivedEvent;
 import com.github.apohrebniak.tmail.core.exception.MailboxExpiredException;
 import com.github.apohrebniak.tmail.core.exception.NoMailboxForUserException;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.simplejavamail.email.Email;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,8 +43,8 @@ public class Tmail implements InitializingBean {
   }
 
   @Subscribe
-  public void onEmail(Email email) {
-    log.info("email = " + email.getPlainText());
+  public void onEmail(EmailReceivedEvent event) {
+    log.info("email = " + event.getEmail().getHTMLText());
   }
 
   private void processCommand(Message message) {
