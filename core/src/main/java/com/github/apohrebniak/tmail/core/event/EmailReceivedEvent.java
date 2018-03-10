@@ -10,7 +10,7 @@ import org.simplejavamail.email.Email;
 public class EmailReceivedEvent {
 
   private Long userId;
-  private Email email;
+  private Email message;
 
   public static EmailReceivedEvent of(Long userId, Email email) {
     return new EmailReceivedEvent(userId, email);

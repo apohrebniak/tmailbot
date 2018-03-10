@@ -9,8 +9,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum BotCommand {
-  NEW_MAILBOX("new_mailbox"),
-  GET_TIME("get_time"),
+  NEW_MAILBOX("/new_mailbox"),
+  GET_TIME("/get_time"),
   UNKNOWN("unknown");
 
   static Map<String, BotCommand> map;

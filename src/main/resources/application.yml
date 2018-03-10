@@ -1,4 +1,6 @@
 tmail:
+  core:
+    ttl: 10
   bot:
     token: ${TOKEN}
     host: ${HOST}
@@ -8,4 +10,3 @@ tmail:
   redis:
     host: localhost
     port: 6379
-    ttl: 1

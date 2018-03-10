@@ -5,8 +5,7 @@ import com.github.apohrebniak.tmail.api.telegram.Update;
 import com.github.apohrebniak.tmail.api.telegram.User;
 import com.github.apohrebniak.tmail.core.MailboxService;
 import com.github.apohrebniak.tmail.core.event.EmailReceivedEvent;
-import com.github.apohrebniak.tmail.core.exception.MailboxExpiredException;
-import com.github.apohrebniak.tmail.core.exception.NoMailboxForUserException;
+import com.github.apohrebniak.tmail.core.event.MailboxExpiredEvent;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import lombok.AllArgsConstructor;
@@ -43,9 +42,15 @@ public class Tmail implements InitializingBean {
   }
 
   @Subscribe
-  public void onEmail(EmailReceivedEvent event) {
-    log.info("email = " + event.getEmail().getHTMLText());
+  public void onEmailReceived(EmailReceivedEvent event) {
+    log.info("email = " + event.getMessage().getPlainText());
   }
+
+  @Subscribe
+  public void onMailboxExpired(MailboxExpiredEvent expiredEvent) {
+    log.info("expired = " + expiredEvent);
+  }
+
 
   private void processCommand(Message message) {
     switch (BotCommand.byValue(message.getText())) {
@@ -66,13 +71,7 @@ public class Tmail implements InitializingBean {
   }
 
   private void getTimeLeft(User user) {
-    try {
-      mailboxService.getMailboxTimeLeft(user.getId());
-    } catch (MailboxExpiredException e) {
 
-    } catch (NoMailboxForUserException e) {
-
-    }
   }
 
   private void replyUnknownCommand() {

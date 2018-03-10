@@ -1,4 +1,4 @@
-package com.github.apohrebniak.tmail.core;
+package com.github.apohrebniak.tmail.core.util;
 
 import java.util.UUID;
 

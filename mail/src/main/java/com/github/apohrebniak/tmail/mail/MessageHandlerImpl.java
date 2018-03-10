@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 import java.util.Properties;
-import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
@@ -44,12 +43,11 @@ public class MessageHandlerImpl implements MessageHandler {
       MimeMessage mimeMessage = new MimeMessage(Session.getDefaultInstance(new Properties()), data);
       final Email email = EmailConverter.mimeMessageToEmail(mimeMessage);
       email.getRecipients().stream()
-          .filter(e -> RecipientType.TO.equals(e.getType()))
           .map(Recipient::getAddress)
           .map(e -> e.substring(0, e.indexOf('@')))
           .filter(mailboxRegistry::exists)
           .forEach(mailbox -> {
-            Optional optionalUserId = mailboxRegistry.getUserIdById(mailbox);
+            Optional optionalUserId = mailboxRegistry.getUserIdByMailboxId(mailbox);
             if (optionalUserId.isPresent()) {
               eventBus.post(EmailReceivedEvent.of((Long) optionalUserId.get(), email));
             }

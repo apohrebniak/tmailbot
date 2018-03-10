@@ -1,8 +1,8 @@
 package com.github.apohrebniak.tmail.core.redis;
 
 import com.github.apohrebniak.tmail.core.MailboxRegistry;
-import com.github.apohrebniak.tmail.core.MailboxUserPair;
-import com.github.apohrebniak.tmail.core.exception.MailboxExpiredException;
+import com.github.apohrebniak.tmail.core.domain.MailboxRecord;
+import com.github.apohrebniak.tmail.core.domain.MailboxUserIds;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import lombok.AllArgsConstructor;
@@ -23,22 +23,14 @@ public class RedisMailboxRegistry implements MailboxRegistry {
   }
 
   @Override
-  public void add(MailboxUserPair mailboxUserPair) {
-    redis.boundValueOps(mailboxUserPair.getMailbox())
-        .set(mailboxUserPair.getTelegramId(), ttl, TimeUnit.MINUTES);
+  public void add(MailboxUserIds mailboxUserIds) {
+    redis.boundValueOps(mailboxUserIds.getMailboxId())
+        .set(mailboxUserIds.getTelegramId(), ttl, TimeUnit.MINUTES);
   }
 
   @Override
-  public Optional<Long> getUserIdById(String id) {
-    return Optional.ofNullable(redis.boundValueOps(id).get());
-  }
-
-  @Override
-  public Long getTimeLeftById(String id) {
-    Long expire = redis.boundValueOps(id).getExpire();
-    if (expire < 0) {
-      throw new MailboxExpiredException(id);
-    }
-    return expire;
+  public Optional<MailboxRecord> getMailboxById(String id) {
+    return Optional.ofNullable(redis.boundValueOps(id).get())
+        .map(u -> new MailboxRecord(id, u, redis.boundValueOps(id).getExpire()));
   }
 }

@@ -20,7 +20,7 @@ public class RedisConfiguration {
   private String redisHost;
   @Value("${tmail.redis.port}")
   private Integer redisPort;
-  @Value("${tmail.redis.ttl}")
+  @Value("${tmail.core.ttl}")
   private Integer ttlMinutes;
 
   @Bean(name = "stringLongRedis")

@@ -1,7 +1,8 @@
 package com.github.apohrebniak.tmail.core.redis;
 
-import com.github.apohrebniak.tmail.core.MailboxUserPair;
 import com.github.apohrebniak.tmail.core.UserRegistry;
+import com.github.apohrebniak.tmail.core.domain.MailboxUserIds;
+import com.github.apohrebniak.tmail.core.domain.UserRecord;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +16,9 @@ public class RedisUserRegistry implements UserRegistry {
   private RedisTemplate<Long, String> redis;
 
   @Override
-  public void add(MailboxUserPair pair) {
+  public void add(MailboxUserIds pair) {
     redis.boundValueOps(pair.getTelegramId())
-        .set(pair.getMailbox());
+        .set(pair.getMailboxId());
   }
 
   @Override
@@ -27,7 +28,8 @@ public class RedisUserRegistry implements UserRegistry {
   }
 
   @Override
-  public Optional<String> getMailboxById(Long id) {
-    return Optional.ofNullable(redis.boundValueOps(id).get());
+  public Optional<UserRecord> getUserRecordById(Long id) {
+    Optional<String> optionalMailboxId = Optional.ofNullable(redis.boundValueOps(id).get());
+    return optionalMailboxId.map(s -> new UserRecord(id, s));
   }
 }
