@@ -6,7 +6,8 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum ApiMethod {
-  SET_WEBHOOK("setWebhook");
+  SET_WEBHOOK("setWebhook"),
+  SEND_MESSAGE("sendMessage");
 
   String name;
 }
