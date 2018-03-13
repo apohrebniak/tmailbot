@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.0.RC2'
+        springBootVersion = '2.0.0.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -32,9 +32,9 @@ allprojects {
 
     dependencies {
         compile('org.springframework.boot:spring-boot-starter-data-redis')
-        compile('org.springframework.boot:spring-boot-starter-web') {
-            exclude module: ('spring-boot-starter-tomcat')
-        }
+        compile('org.springframework:spring-web')
+        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+        compile('com.fasterxml.jackson.core:jackson-databind:2.9.4')
         compile('org.subethamail:subethasmtp:3.1.7')
         compile('redis.clients:jedis:2.9.0')
         compile('com.google.guava:guava:24.0-jre')
@@ -48,7 +48,4 @@ dependencies {
     compile project(':core')
     compile project(':api')
     compile project(':mail')
-    compile('org.springframework.boot:spring-boot-starter-undertow')
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    testCompile('org.springframework.boot:spring-boot-starter-test')
 }

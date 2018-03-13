@@ -58,7 +58,7 @@ public class Tmail implements InitializingBean {
 
   @Subscribe
   public void onEmailReceived(EmailReceivedEvent event) {
-    log.debug("email = " + event.getMessage().getPlainText());
+    log.info("email = " + event.getMessage().getPlainText());
     sender.sendMessage(outMessageFactory
         .buildEmailReceivedMessage(event.getUserId(), event.getMessage()));
 
