@@ -3,8 +3,7 @@ tmail:
     ttl: 10
   bot:
     token: ${TOKEN}
-    host: ${HOST}
-    telegram_url: ${TELEGRAM_URL}
+    telegram_url: ${TELEGRAM_URL:https://api.telegram.org/bot}
   smtp:
     port: 2222
   redis:

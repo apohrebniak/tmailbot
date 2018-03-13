@@ -3,8 +3,8 @@ package com.github.apohrebniak.tmail.core;
 import com.github.apohrebniak.tmail.core.domain.MailboxRecord;
 import com.github.apohrebniak.tmail.core.domain.MailboxUserIds;
 import com.github.apohrebniak.tmail.core.domain.UserRecord;
-import com.github.apohrebniak.tmail.core.exception.NoMailboxForUserException;
 import com.github.apohrebniak.tmail.core.util.MailboxStringIdFactory;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class MailboxService {
   private MailboxRegistry mailboxRegistry;
   private MailboxExpiredNotificationService expiredNotificationService;
 
-  public String createNewMailboxForUser(Long userId) {
+  public MailboxRecord createNewMailboxForUser(Long userId) {
     MailboxUserIds mailboxUserIds =
         new MailboxUserIds(MailboxStringIdFactory.generateId(), userId);
 
@@ -27,13 +27,15 @@ public class MailboxService {
     mailboxRegistry.add(mailboxUserIds);
     expiredNotificationService.scheduleMailboxExpiration(mailboxUserIds);
 
-    return mailboxUserIds.getMailboxId();
+    return getMailboxForUser(userId).get();
   }
 
-  public MailboxRecord getMailboxForUser(Long userId) throws NoMailboxForUserException {
-    String mailboxId = userRegistry.getUserRecordById(userId).map(UserRecord::getMailboxId)
-        .orElseThrow(() -> new NoMailboxForUserException(userId));
-    return mailboxRegistry.getMailboxById(mailboxId)
-        .orElseThrow(() -> new NoMailboxForUserException(userId));
+  public Optional<MailboxRecord> getMailboxForUser(Long userId) {
+    Optional<String> optionalMailboxId = userRegistry
+        .getUserRecordById(userId)
+        .map(UserRecord::getMailboxId);
+    return optionalMailboxId.isPresent()
+        ? mailboxRegistry.getMailboxById(optionalMailboxId.get())
+        : Optional.empty();
   }
 }

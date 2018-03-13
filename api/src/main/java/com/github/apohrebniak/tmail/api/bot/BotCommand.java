@@ -9,6 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum BotCommand {
+  ME("/me"),
   NEW_MAILBOX("/new_mailbox"),
   GET_TIME("/get_time"),
   UNKNOWN("unknown");

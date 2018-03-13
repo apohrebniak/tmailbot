@@ -1,6 +1,7 @@
 package com.github.apohrebniak.tmail.mail;
 
 import com.github.apohrebniak.tmail.core.MailboxRegistry;
+import com.github.apohrebniak.tmail.core.domain.MailboxRecord;
 import com.github.apohrebniak.tmail.core.event.EmailReceivedEvent;
 import com.google.common.eventbus.EventBus;
 import java.io.IOException;
@@ -47,7 +48,8 @@ public class MessageHandlerImpl implements MessageHandler {
           .map(e -> e.substring(0, e.indexOf('@')))
           .filter(mailboxRegistry::exists)
           .forEach(mailbox -> {
-            Optional optionalUserId = mailboxRegistry.getUserIdByMailboxId(mailbox);
+            Optional optionalUserId = mailboxRegistry.getMailboxById(mailbox)
+                .map(MailboxRecord::getUserId);
             if (optionalUserId.isPresent()) {
               eventBus.post(EmailReceivedEvent.of((Long) optionalUserId.get(), email));
             }
