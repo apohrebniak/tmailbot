@@ -1,7 +1,7 @@
 package com.github.apohrebniak.tmail.api.bot;
 
-import com.github.apohrebniak.tmail.api.bot.message.OutMessage;
-import com.github.apohrebniak.tmail.api.bot.message.ParseMode;
+import com.github.apohrebniak.tmail.api.message.OutMessage;
+import com.github.apohrebniak.tmail.api.message.ParseMode;
 import com.github.apohrebniak.tmail.api.telegram.ApiMethod;
 import com.github.apohrebniak.tmail.api.telegram.template.SendMessageRequest;
 import java.net.URI;

@@ -1,6 +1,6 @@
 package com.github.apohrebniak.tmail.api.bot;
 
-import com.github.apohrebniak.tmail.api.bot.message.OutMessageFactory;
+import com.github.apohrebniak.tmail.api.message.OutMessageFactory;
 import com.github.apohrebniak.tmail.api.telegram.domain.Message;
 import com.github.apohrebniak.tmail.api.telegram.domain.Update;
 import com.github.apohrebniak.tmail.api.telegram.domain.User;

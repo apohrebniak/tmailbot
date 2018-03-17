@@ -11,3 +11,6 @@ tmail:
   redis:
     host: ${REDIS_HOST:localhost}
     port: ${REDIS_PORT:6379}
+  api:
+    mailbox_host: ${MAILBOX_HOST:tmailbot.gq}
+    time_format: "%s:%s"

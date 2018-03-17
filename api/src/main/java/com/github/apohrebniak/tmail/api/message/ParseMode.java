@@ -1,4 +1,4 @@
-package com.github.apohrebniak.tmail.api.bot.message;
+package com.github.apohrebniak.tmail.api.message;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -3,7 +3,7 @@ package com.github.apohrebniak.tmail.api.telegram.template;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.apohrebniak.tmail.api.bot.message.ParseMode;
+import com.github.apohrebniak.tmail.api.message.ParseMode;
 import lombok.Builder;
 
 @Builder
