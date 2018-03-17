@@ -42,6 +42,9 @@ public class Tmail implements InitializingBean {
 
   private void processCommand(Message message) {
     switch (BotCommand.byValue(message.getText())) {
+      case START:
+        processStartCommand(message.getUser());
+        break;
       case ME:
         processMeCommand(message.getUser());
         break;
@@ -66,6 +69,10 @@ public class Tmail implements InitializingBean {
     log.debug("expired = " + event);
     messageSender.sendMessage(outMessageFactory
         .buildMailboxExpiredMessage(event.getUserId()));
+  }
+
+  private void processStartCommand(User user) {
+    messageSender.sendMessage(outMessageFactory.buildStartMesssage(user.getId()));
   }
 
   private void processMeCommand(User user) {

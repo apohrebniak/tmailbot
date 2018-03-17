@@ -11,6 +11,7 @@ import lombok.Getter;
 public enum BotCommand {
   ME("/me"),
   NEW_MAILBOX("/new_mailbox"),
+  START("/start"),
   UNKNOWN("unknown");
 
   static Map<String, BotCommand> map;

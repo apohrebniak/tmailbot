@@ -10,7 +10,8 @@ public enum Messages {
   GET_TIME("get_time"),
   NEW_MAILBOX("mailbox"),
   NO_MAILBOX("no_mailbox"),
-  ME("mailbox");
+  ME("mailbox"),
+  START("start");
 
   String value;
 
