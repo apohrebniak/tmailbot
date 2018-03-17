@@ -11,17 +11,18 @@ import org.subethamail.smtp.server.SMTPServer;
 public class MailServerStarter implements InitializingBean {
 
   private MessageHandlerFactory messageHandlerFactory;
-  private int port;
+  private SMTPProperties properties;
 
   @Override
   public void afterPropertiesSet() throws Exception {
-    startServer(messageHandlerFactory, port);
+    startServer();
   }
 
-  private void startServer(MessageHandlerFactory factory, int port) {
-    SMTPServer smtpServer = new SMTPServer(factory);
-    smtpServer.setPort(port);
-    log.info("SMTP started");
+  private void startServer() {
+    SMTPServer smtpServer = new SMTPServer(messageHandlerFactory);
+    smtpServer.setPort(properties.getPort());
+    smtpServer.setMaxMessageSize(properties.getMaxMessageSize());
+    log.info("SMTP server started on port: " + properties.getPort());
     smtpServer.start();
   }
 }

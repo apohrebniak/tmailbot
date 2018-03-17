@@ -1,5 +1,6 @@
 package com.github.apohrebniak.tmail.core.redis;
 
+import com.github.apohrebniak.tmail.core.CoreProperties;
 import com.github.apohrebniak.tmail.core.MailboxRegistry;
 import com.github.apohrebniak.tmail.core.domain.MailboxRecord;
 import com.github.apohrebniak.tmail.core.domain.MailboxUserIds;
@@ -14,7 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class RedisMailboxRegistry implements MailboxRegistry {
 
-  private Integer ttl;
+  private CoreProperties coreProperties;
   private RedisTemplate<String, Long> redis;
 
   @Override
@@ -25,7 +26,7 @@ public class RedisMailboxRegistry implements MailboxRegistry {
   @Override
   public void add(MailboxUserIds mailboxUserIds) {
     redis.boundValueOps(mailboxUserIds.getMailboxId())
-        .set(mailboxUserIds.getTelegramId(), ttl, TimeUnit.MINUTES);
+        .set(mailboxUserIds.getTelegramId(), coreProperties.getTtl(), TimeUnit.MINUTES);
   }
 
   @Override

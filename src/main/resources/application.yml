@@ -7,6 +7,7 @@ tmail:
     timeout: ${TIMEOUT:2}
   smtp:
     port: ${SMTP_PORT:2222}
+    max_message_size: ${SMTP_MAX_MESSAGE_SIZE:5120}
   redis:
     host: ${REDIS_HOST:localhost}
     port: ${REDIS_PORT:6379}

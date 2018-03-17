@@ -2,27 +2,24 @@ package com.github.apohrebniak.tmail.mail;
 
 import com.github.apohrebniak.tmail.core.MailboxRegistry;
 import com.google.common.eventbus.EventBus;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.subethamail.smtp.MessageHandlerFactory;
 
 @Configuration
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class SMTPConfiguration {
 
-  @Value("${tmail.smtp.port}")
-  private Integer smtpPort;
-  @Autowired
   private MailboxRegistry mailboxRegistry;
-  @Autowired
   private EventBus eventBus;
+  private SMTPProperties properties;
 
 
   @Bean
-  @Autowired
   public MailServerStarter mailServerStarter(MessageHandlerFactory factory) {
-    return new MailServerStarter(factory, smtpPort);
+    return new MailServerStarter(factory, properties);
   }
 
   @Bean
