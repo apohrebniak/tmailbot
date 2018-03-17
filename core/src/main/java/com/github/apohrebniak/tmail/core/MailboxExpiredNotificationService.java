@@ -25,9 +25,10 @@ public class MailboxExpiredNotificationService implements InitializingBean {
 
   @Autowired
   public MailboxExpiredNotificationService(
-      ScheduledExecutorService executorService, EventBus eventBus) {
+      ScheduledExecutorService executorService, EventBus eventBus, UserRegistry userRegistry) {
     this.executorService = executorService;
     this.eventBus = eventBus;
+    this.userRegistry = userRegistry;
   }
 
   @Override

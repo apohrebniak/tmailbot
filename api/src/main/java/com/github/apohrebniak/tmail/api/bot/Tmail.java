@@ -1,9 +1,9 @@
 package com.github.apohrebniak.tmail.api.bot;
 
 import com.github.apohrebniak.tmail.api.bot.message.OutMessageFactory;
-import com.github.apohrebniak.tmail.api.telegram.Message;
-import com.github.apohrebniak.tmail.api.telegram.Update;
-import com.github.apohrebniak.tmail.api.telegram.User;
+import com.github.apohrebniak.tmail.api.telegram.domain.Message;
+import com.github.apohrebniak.tmail.api.telegram.domain.Update;
+import com.github.apohrebniak.tmail.api.telegram.domain.User;
 import com.github.apohrebniak.tmail.core.MailboxService;
 import com.github.apohrebniak.tmail.core.domain.MailboxRecord;
 import com.github.apohrebniak.tmail.core.event.EmailReceivedEvent;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class Tmail implements InitializingBean {
 
-  private Sender sender;
+  private MessageSender messageSender;
   private MailboxService mailboxService;
   private EventBus eventBus;
   private OutMessageFactory outMessageFactory;
@@ -59,7 +59,7 @@ public class Tmail implements InitializingBean {
   @Subscribe
   public void onEmailReceived(EmailReceivedEvent event) {
     log.info("email = " + event.getMessage().getPlainText());
-    sender.sendMessage(outMessageFactory
+    messageSender.sendMessage(outMessageFactory
         .buildEmailReceivedMessage(event.getUserId(), event.getMessage()));
 
   }
@@ -67,16 +67,16 @@ public class Tmail implements InitializingBean {
   @Subscribe
   public void onMailboxExpired(MailboxExpiredEvent event) {
     log.debug("expired = " + event);
-    sender.sendMessage(outMessageFactory
+    messageSender.sendMessage(outMessageFactory
         .buildMailboxExpiredMessage(event.getUserId()));
   }
 
   private void processMeCommand(User user) {
     mailboxService.getMailboxForUser(user.getId())
         .ifPresentOrElse(
-            e -> sender.sendMessage(outMessageFactory
+            e -> messageSender.sendMessage(outMessageFactory
                 .buildMeMessage(e.getUserId(), e)),
-            () -> sender.sendMessage(outMessageFactory
+            () -> messageSender.sendMessage(outMessageFactory
                 .buildNoMailboxMessage(user.getId())));
   }
 
@@ -85,22 +85,22 @@ public class Tmail implements InitializingBean {
 
     log.debug("Mailbox  [" + mailbox.getId() + "] created");
 
-    sender.sendMessage(outMessageFactory
+    messageSender.sendMessage(outMessageFactory
         .buildNewMailboxMessage(user.getId(), mailbox));
   }
 
   private void processGetTimeLeftCommand(User user) {
     mailboxService.getMailboxForUser(user.getId())
         .ifPresentOrElse(
-            e -> sender.sendMessage(outMessageFactory
-                .buildTimeLeftMessage(e.getUserId(), e)),
-            () -> sender.sendMessage(outMessageFactory
+            e -> messageSender.sendMessage(outMessageFactory
+                .buildTimeLeftMessage(user.getId(), e)),
+            () -> messageSender.sendMessage(outMessageFactory
                 .buildNoMailboxMessage(user.getId())));
   }
 
   private void processUnknownCommand(User user) {
     log.debug("Unknown command.");
-    sender.sendMessage(outMessageFactory
+    messageSender.sendMessage(outMessageFactory
         .buildUnknownCommandMessage(user.getId()));
   }
 

@@ -11,5 +11,7 @@ public class BotProperties {
 
   private String token;
 
-  private String telegramUrl;
+  private String telegramUrlPattern;
+
+  private Long timeout;
 }

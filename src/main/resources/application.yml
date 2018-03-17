@@ -1,11 +1,12 @@
 tmail:
   core:
-    ttl: 10
+    ttl: ${TTL:1}
   bot:
     token: ${TOKEN}
-    telegram_url: ${TELEGRAM_URL:https://api.telegram.org/bot}
+    telegram_url_pattern: ${TELEGRAM_URL_TEMPLATE:https://api.telegram.org/bot%s/%s}
+    timeout: ${TIMEOUT:2}
   smtp:
-    port: 2222
+    port: ${SMTP_PORT:2222}
   redis:
-    host: localhost
-    port: 6379
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}

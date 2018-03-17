@@ -24,9 +24,4 @@ public class MailServerStarter implements InitializingBean {
     log.info("SMTP started");
     smtpServer.start();
   }
-
-  public static void main(String[] args) {
-//    MailServerStarter serverStarter = new MailServerStarter();
-//    serverStarter.startServer(new MessageHandlerFactoryImpl());
-  }
 }
