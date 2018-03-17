@@ -29,14 +29,15 @@ public class MailboxExpiredNotificationService implements InitializingBean {
   }
 
   public void scheduleMailboxExpiration(final MailboxUserIds mailboxUserIds) {
-    log.info("Schedule mailbox expiring for pair: [" + mailboxUserIds + "]");
     if (mailboxIsActive(mailboxUserIds)) {
-      executorService.schedule(() ->
-              eventBus.post(MailboxExpiredEvent
-                  .builder()
-                  .mailboxId(mailboxUserIds.getMailboxId())
-                  .userId(mailboxUserIds.getTelegramId())
-                  .build()),
+      executorService.schedule(() -> {
+            log.info("Mailbox {} has expired", mailboxUserIds.getMailboxId());
+            eventBus.post(MailboxExpiredEvent
+                .builder()
+                .mailboxId(mailboxUserIds.getMailboxId())
+                .userId(mailboxUserIds.getTelegramId())
+                .build());
+          },
           coreProperties.getTtl(),
           TimeUnit.MINUTES);
     }

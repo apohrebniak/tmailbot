@@ -14,8 +14,7 @@ buildscript {
 
 
 group = 'com.github.apohrebniak'
-version = '0.0.1-SNAPSHOT'
-//sourceCompatibility = 9
+version = '0.0.1-ALPHA'
 
 allprojects {
 
@@ -33,7 +32,6 @@ allprojects {
     dependencies {
         compile('org.springframework.boot:spring-boot-starter-data-redis')
         compile('org.springframework:spring-web')
-        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
         compile('com.fasterxml.jackson.core:jackson-databind:2.9.4')
         compile('org.subethamail:subethasmtp:3.1.7')
         compile('redis.clients:jedis:2.9.0')

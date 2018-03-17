@@ -27,6 +27,9 @@ public class MailboxService {
     mailboxRegistry.add(mailboxUserIds);
     expiredNotificationService.scheduleMailboxExpiration(mailboxUserIds);
 
+    log.info("Created mailbox {} for user {}", mailboxUserIds.getMailboxId(),
+        mailboxUserIds.getTelegramId());
+
     return getMailboxForUser(userId).get();
   }
 
