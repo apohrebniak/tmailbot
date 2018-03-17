@@ -1,7 +1,6 @@
 package com.github.apohrebniak.tmail.api.bot;
 
 import com.github.apohrebniak.tmail.api.message.OutMessage;
-import com.github.apohrebniak.tmail.api.message.ParseMode;
 import com.github.apohrebniak.tmail.api.telegram.ApiMethod;
 import com.github.apohrebniak.tmail.api.telegram.template.SendMessageRequest;
 import java.net.URI;
@@ -24,7 +23,6 @@ public class MessageSender {
     SendMessageRequest request = SendMessageRequest.builder()
         .chatId(msg.getChatId())
         .formattedText(msg.getText())
-        .parseMode(ParseMode.HTML)
         .build();
 
     String url = String.format(botProperties.getTelegramUrlPattern(),

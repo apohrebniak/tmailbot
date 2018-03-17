@@ -10,8 +10,6 @@ public class OutMessage {
 
   @JsonProperty("chat_id")
   private final Long chatId;
-  @JsonProperty("parse_mode")
-  private ParseMode parseMode;
   @JsonProperty("text")
   private final String text;
 

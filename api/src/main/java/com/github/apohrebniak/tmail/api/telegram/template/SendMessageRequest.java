@@ -3,7 +3,6 @@ package com.github.apohrebniak.tmail.api.telegram.template;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.apohrebniak.tmail.api.message.ParseMode;
 import lombok.Builder;
 
 @Builder
@@ -14,6 +13,4 @@ public class SendMessageRequest {
   private Long chatId;
   @JsonProperty("text")
   private String formattedText;
-  @JsonProperty("parse_mode")
-  private ParseMode parseMode;
 }

@@ -48,9 +48,6 @@ public class Tmail implements InitializingBean {
       case NEW_MAILBOX:
         processCreateNewMailboxCommand(message.getUser());
         break;
-      case GET_TIME:
-        processGetTimeLeftCommand(message.getUser());
-        break;
       default:
         processUnknownCommand(message.getUser());
     }
@@ -58,7 +55,7 @@ public class Tmail implements InitializingBean {
 
   @Subscribe
   public void onEmailReceived(EmailReceivedEvent event) {
-    log.info("email = " + event.getMessage().getPlainText());
+    log.info("email event user={}", event.getUserId());
     messageSender.sendMessage(outMessageFactory
         .buildEmailReceivedMessage(event.getUserId(), event.getMessage()));
 
@@ -87,15 +84,6 @@ public class Tmail implements InitializingBean {
 
     messageSender.sendMessage(outMessageFactory
         .buildNewMailboxMessage(user.getId(), mailbox));
-  }
-
-  private void processGetTimeLeftCommand(User user) {
-    mailboxService.getMailboxForUser(user.getId())
-        .ifPresentOrElse(
-            e -> messageSender.sendMessage(outMessageFactory
-                .buildTimeLeftMessage(user.getId(), e)),
-            () -> messageSender.sendMessage(outMessageFactory
-                .buildNoMailboxMessage(user.getId())));
   }
 
   private void processUnknownCommand(User user) {

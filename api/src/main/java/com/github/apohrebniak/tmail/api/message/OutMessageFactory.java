@@ -48,12 +48,6 @@ public class OutMessageFactory {
         formatPeriodOfSeconds(mailbox.getTtlSeconds())));
   }
 
-  public OutMessage buildTimeLeftMessage(Long userId, MailboxRecord mailbox) {
-    return new OutMessage(userId, String.format(bundle.getString(Messages.GET_TIME.toString()),
-        formatEmailAddress(mailbox.getId()),
-        formatPeriodOfSeconds(mailbox.getTtlSeconds())));
-  }
-
   public OutMessage buildUnknownCommandMessage(Long id) {
     return new OutMessage(id, bundle.getString(Messages.UNKNOWN_COMMAND.toString()));
   }
