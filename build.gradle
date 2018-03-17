@@ -16,12 +16,16 @@ buildscript {
 group = 'com.github.apohrebniak'
 version = '0.0.1-ALPHA'
 
+apply plugin: 'org.springframework.boot'
+
 allprojects {
 
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: 'io.spring.dependency-management'
-    apply plugin: 'org.springframework.boot'
+
+    sourceCompatibility = 1.9
+    targetCompatibility = 1.9
 
     repositories {
         mavenCentral()
@@ -29,8 +33,20 @@ allprojects {
         maven { url "https://repo.spring.io/milestone" }
     }
 
+    ext {
+        springDataVersion = 'Kay-SR4'
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springBootVersion}"
+            mavenBom "org.springframework.data:spring-data-releasetrain:${springDataVersion}"
+        }
+    }
+
     dependencies {
-        compile('org.springframework.boot:spring-boot-starter-data-redis')
+        compile('org.springframework.boot:spring-boot-starter')
+        compile('org.springframework.data:spring-data-redis')
         compile('org.springframework:spring-web')
         compile('com.fasterxml.jackson.core:jackson-databind:2.9.4')
         compile('org.subethamail:subethasmtp:3.1.7')
@@ -42,8 +58,13 @@ allprojects {
     }
 }
 
+jar {
+    baseName = "tmail"
+}
+
 dependencies {
     compile project(':core')
     compile project(':api')
     compile project(':mail')
+
 }
