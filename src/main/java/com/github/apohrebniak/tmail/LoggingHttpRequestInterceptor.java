@@ -13,7 +13,7 @@ public class LoggingHttpRequestInterceptor implements ClientHttpRequestIntercept
   @Override
   public ClientHttpResponse intercept(HttpRequest request, byte[] body,
       ClientHttpRequestExecution execution) throws IOException {
-    log.info("Request: method={} body={}", request.getMethod(), new String(body));
+    log.debug("Request: method={} body={}", request.getMethod(), new String(body));
     return execution.execute(request, body);
   }
 }
