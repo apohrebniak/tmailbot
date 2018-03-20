@@ -23,6 +23,7 @@ public class MessageSender {
     SendMessageRequest request = SendMessageRequest.builder()
         .chatId(msg.getChatId())
         .formattedText(msg.getText())
+        .disableWebPagePreview(true) //always disable page preview to avoid unexpected calls
         .build();
 
     String url = String.format(botProperties.getTelegramUrlPattern(),

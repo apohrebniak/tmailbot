@@ -13,4 +13,6 @@ public class SendMessageRequest {
   private Long chatId;
   @JsonProperty("text")
   private String formattedText;
+  @JsonProperty("disable_web_page_preview")
+  private Boolean disableWebPagePreview;
 }
