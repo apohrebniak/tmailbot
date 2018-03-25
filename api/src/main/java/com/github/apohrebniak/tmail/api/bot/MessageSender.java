@@ -5,13 +5,16 @@ import com.github.apohrebniak.tmail.api.telegram.ApiMethod;
 import com.github.apohrebniak.tmail.api.telegram.template.SendMessageRequest;
 import java.net.URI;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
+@Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class MessageSender {
 
@@ -29,9 +32,17 @@ public class MessageSender {
     String url = String.format(botProperties.getTelegramUrlPattern(),
         botProperties.getToken(), ApiMethod.SEND_MESSAGE.toString());
 
-    restTemplate.exchange(RequestEntity
-        .post(URI.create(url))
-        .contentType(MediaType.APPLICATION_JSON)
-        .body(request), String.class);
+    executeRequest(url, request);
+  }
+
+  private void executeRequest(String url, SendMessageRequest request) {
+    try {
+      restTemplate.exchange(RequestEntity
+          .post(URI.create(url))
+          .contentType(MediaType.APPLICATION_JSON)
+          .body(request), String.class);
+    } catch (RestClientException e) {
+      log.error("An error occurred while sending message!", e.getMessage());
+    }
   }
 }

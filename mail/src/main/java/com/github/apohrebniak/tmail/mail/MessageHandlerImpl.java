@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
 import java.util.Properties;
-import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
@@ -54,7 +53,7 @@ public class MessageHandlerImpl implements MessageHandler {
               eventBus.post(EmailReceivedEvent.of((Long) optionalUserId.get(), email));
             }
           });
-    } catch (MessagingException e) {
+    } catch (Exception e) {
       log.error("Error handling message! ", e);
     }
   }

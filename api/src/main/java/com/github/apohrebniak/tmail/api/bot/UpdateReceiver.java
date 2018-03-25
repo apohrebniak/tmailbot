@@ -43,6 +43,7 @@ public class UpdateReceiver implements ApplicationRunner {
 
       if (updatesResponse != null && updatesResponse.getSuccess()) {
         updatesResponse.getUpdates().forEach(update -> {
+          log.info("Update received: {}", update);
           this.lastReceivedUpdateId = Long.max(this.lastReceivedUpdateId, update.getId());
           executorService.submit(() -> tmail.onUpdate(update));
         });
