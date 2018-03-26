@@ -14,4 +14,6 @@ public class SMTPProperties {
   private Integer port;
 
   private Integer maxMessageSize;
+
+  private String domain;
 }

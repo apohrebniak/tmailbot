@@ -6,6 +6,7 @@ tmail:
     telegram_url_pattern: ${TELEGRAM_URL_TEMPLATE:https://api.telegram.org/bot%s/%s}
     timeout: ${TIMEOUT:2}
   smtp:
+    domain: ${DOMAIN:tmailbot.gq}
     port: ${SMTP_PORT:25}
     max_message_size: ${SMTP_MAX_MESSAGE_SIZE:0}
   redis:

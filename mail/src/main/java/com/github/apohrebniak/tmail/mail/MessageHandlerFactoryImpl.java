@@ -12,9 +12,10 @@ public class MessageHandlerFactoryImpl implements MessageHandlerFactory {
 
   private MailboxRegistry mailboxRegistry;
   private EventBus eventBus;
+  private SMTPProperties properties;
 
   @Override
   public MessageHandler create(MessageContext ctx) {
-    return new MessageHandlerImpl(mailboxRegistry, eventBus);
+    return new MessageHandlerImpl(mailboxRegistry, eventBus, properties);
   }
 }

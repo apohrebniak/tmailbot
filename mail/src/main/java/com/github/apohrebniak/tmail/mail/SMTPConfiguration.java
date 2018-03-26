@@ -24,6 +24,6 @@ public class SMTPConfiguration {
 
   @Bean
   public MessageHandlerFactory messageHandlerFactory() {
-    return new MessageHandlerFactoryImpl(mailboxRegistry, eventBus);
+    return new MessageHandlerFactoryImpl(mailboxRegistry, eventBus, properties);
   }
 }

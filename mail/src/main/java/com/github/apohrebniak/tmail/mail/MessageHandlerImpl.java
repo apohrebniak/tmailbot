@@ -25,6 +25,7 @@ public class MessageHandlerImpl implements MessageHandler {
 
   private MailboxRegistry mailboxRegistry;
   private EventBus eventBus;
+  private SMTPProperties properties;
 
 
   @Override
@@ -44,6 +45,7 @@ public class MessageHandlerImpl implements MessageHandler {
       final Email email = EmailConverter.mimeMessageToEmail(mimeMessage);
       email.getRecipients().stream()
           .map(Recipient::getAddress)
+          .filter(e -> e.endsWith("@".concat(properties.getDomain())))
           .map(e -> e.substring(0, e.indexOf('@')))
           .filter(mailboxRegistry::exists)
           .forEach(mailbox -> {
@@ -54,7 +56,7 @@ public class MessageHandlerImpl implements MessageHandler {
             }
           });
     } catch (Exception e) {
-      log.error("Error handling message! ", e);
+      log.error("Error while handling message! error={}", e);
     }
   }
 

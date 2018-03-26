@@ -60,9 +60,18 @@ public class UpdateReceiver implements ApplicationRunner {
         .timeout(botProperties.getTimeout())
         .build();
 
-    return restTemplate.exchange(RequestEntity
-        .post(URI.create(url))
-        .contentType(MediaType.APPLICATION_JSON)
-        .body(request), UpdatesResponse.class).getBody();
+    return executeRequest(url, request);
+  }
+
+  private UpdatesResponse executeRequest(String url, GetUpdatesRequest request) {
+    try {
+      return restTemplate.exchange(RequestEntity
+          .post(URI.create(url))
+          .contentType(MediaType.APPLICATION_JSON)
+          .body(request), UpdatesResponse.class).getBody();
+    } catch (Exception e) {
+      log.info("Exception while requesting updates. error={}", e.getMessage());
+      return null;
+    }
   }
 }
