@@ -10,6 +10,6 @@ public class ApiConfig {
 
   @Bean(name = "apiPool")
   public ExecutorService executorService() {
-    return Executors.newCachedThreadPool();
+    return Executors.newFixedThreadPool(2);
   }
 }
