@@ -3,7 +3,6 @@ package com.github.apohrebniak.tmail.api.bot;
 import com.github.apohrebniak.tmail.api.message.OutMessage;
 import com.github.apohrebniak.tmail.api.telegram.ApiMethod;
 import com.github.apohrebniak.tmail.api.telegram.template.SendMessageRequest;
-import java.net.URI;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
 
 @Component
 @Slf4j
@@ -42,7 +43,7 @@ public class MessageSender {
           .contentType(MediaType.APPLICATION_JSON)
           .body(request), String.class);
     } catch (RestClientException e) {
-      log.error("An error occurred while sending message!", e.getMessage());
+      log.error("An error occurred while sending message!", e);
     }
   }
 }

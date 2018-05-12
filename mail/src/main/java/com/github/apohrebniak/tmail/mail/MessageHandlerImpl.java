@@ -4,14 +4,6 @@ import com.github.apohrebniak.tmail.core.MailboxRegistry;
 import com.github.apohrebniak.tmail.core.domain.MailboxRecord;
 import com.github.apohrebniak.tmail.core.event.EmailReceivedEvent;
 import com.google.common.eventbus.EventBus;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.simplejavamail.converter.EmailConverter;
 import org.simplejavamail.email.Email;
@@ -20,6 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.subethamail.smtp.MessageHandler;
 import org.subethamail.smtp.RejectException;
 import org.subethamail.smtp.TooMuchDataException;
+
+import javax.mail.Session;
+import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Properties;
 
 @Slf4j
 public class MessageHandlerImpl implements MessageHandler {
@@ -92,7 +93,7 @@ public class MessageHandlerImpl implements MessageHandler {
         .map(this::getUserFromEmailAddress)
         .anyMatch(mailboxRegistry::exists);
     if (!hasValidRecipients) {
-      log.info("Reject recipients={}", this.recipients);
+        log.warn("Reject recipients={}", this.recipients);
       throw new RejectException();
     }
   }
