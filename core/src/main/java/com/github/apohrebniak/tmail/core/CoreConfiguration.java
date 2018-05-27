@@ -1,11 +1,10 @@
 package com.github.apohrebniak.tmail.core;
 
 import com.google.common.eventbus.EventBus;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 @Configuration
 public class CoreConfiguration {
@@ -15,9 +14,9 @@ public class CoreConfiguration {
     return new EventBus();
   }
 
-  @Bean
-  public ScheduledExecutorService scheduledExecutorService() {
-    return Executors.newSingleThreadScheduledExecutor();
+  @Bean(name = "onExpiredEventExecutor")
+  public Executor executor() {
+    return Executors.newCachedThreadPool();
   }
 
 }

@@ -3,9 +3,9 @@ package com.github.apohrebniak.tmail.api.bot;
 import com.github.apohrebniak.tmail.api.telegram.ApiMethod;
 import com.github.apohrebniak.tmail.api.telegram.template.GetUpdatesRequest;
 import com.github.apohrebniak.tmail.api.telegram.template.UpdatesResponse;
+import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.http.MediaType;
@@ -13,29 +13,18 @@ import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
-import java.util.concurrent.ExecutorService;
-
 @Component
 @Slf4j
 public class UpdateReceiver implements ApplicationRunner {
 
-  private final Tmail tmail;
-  private final RestTemplate restTemplate;
-  private final BotProperties botProperties;
-  private final ExecutorService executorService;
-  private Long offset = 0L;
-
   @Autowired
-  public UpdateReceiver(Tmail tmail,
-      RestTemplate restTemplate,
-      BotProperties botProperties,
-      @Qualifier("apiPool") ExecutorService executorService) {
-    this.tmail = tmail;
-    this.restTemplate = restTemplate;
-    this.botProperties = botProperties;
-    this.executorService = executorService;
-  }
+  private Tmail tmail;
+  @Autowired
+  private RestTemplate restTemplate;
+  @Autowired
+  private BotProperties botProperties;
+
+  private Long offset = 0L;
 
   @Override
   public void run(ApplicationArguments args) throws Exception {
@@ -46,7 +35,7 @@ public class UpdateReceiver implements ApplicationRunner {
         updatesResponse.getUpdates().forEach(update -> {
           log.info("Update received: {}", update);
           offset = update.getId().longValue() + 1;
-          executorService.submit(() -> tmail.onUpdate(update));
+          tmail.onUpdate(update);
         });
       }
     }
@@ -57,7 +46,7 @@ public class UpdateReceiver implements ApplicationRunner {
         ApiMethod.GET_UPDATES.toString());
 
     GetUpdatesRequest request = GetUpdatesRequest.builder()
-            .offset(offset)
+        .offset(offset)
         .timeout(botProperties.getTimeout())
         .build();
 

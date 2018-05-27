@@ -4,23 +4,22 @@ import com.github.apohrebniak.tmail.core.MailboxRegistry;
 import com.github.apohrebniak.tmail.core.domain.MailboxRecord;
 import com.github.apohrebniak.tmail.core.event.EmailReceivedEvent;
 import com.google.common.eventbus.EventBus;
-import lombok.extern.slf4j.Slf4j;
-import org.simplejavamail.converter.EmailConverter;
-import org.simplejavamail.email.Email;
-import org.simplejavamail.email.Recipient;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.subethamail.smtp.MessageHandler;
-import org.subethamail.smtp.RejectException;
-import org.subethamail.smtp.TooMuchDataException;
-
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.internet.MimeMessage;
+import lombok.extern.slf4j.Slf4j;
+import org.simplejavamail.converter.EmailConverter;
+import org.simplejavamail.email.Email;
+import org.simplejavamail.email.Recipient;
+import org.springframework.scheduling.annotation.Async;
+import org.subethamail.smtp.MessageHandler;
+import org.subethamail.smtp.RejectException;
+import org.subethamail.smtp.TooMuchDataException;
 
 @Slf4j
 public class MessageHandlerImpl implements MessageHandler {
@@ -31,7 +30,6 @@ public class MessageHandlerImpl implements MessageHandler {
 
   private List<String> recipients = new LinkedList<>();
 
-  @Autowired
   public MessageHandlerImpl(MailboxRegistry mailboxRegistry,
       EventBus eventBus, SMTPProperties properties) {
     this.mailboxRegistry = mailboxRegistry;
@@ -47,12 +45,13 @@ public class MessageHandlerImpl implements MessageHandler {
   @Override
   public void recipient(String recipient) throws RejectException {
     log.info("Recipient: " + recipient);
+
     this.recipients.add(recipient);
   }
 
   @Override
   public void data(InputStream data) throws RejectException, TooMuchDataException, IOException {
-    checkRecipientsDomain();
+    checkRecipients();
     processMessageStream(data);
   }
 
@@ -62,28 +61,33 @@ public class MessageHandlerImpl implements MessageHandler {
   }
 
   private void processMessageStream(InputStream data) {
+
     try {
-      MimeMessage mimeMessage = new MimeMessage(Session.getDefaultInstance(new Properties()), data);
-      final Email email = EmailConverter.mimeMessageToEmail(mimeMessage);
-      email.getRecipients().stream()
-          .map(Recipient::getAddress)
-          .map(this::getUserFromEmailAddress)
-          .filter(mailboxRegistry::exists)
-          .forEach(m -> this.sendEmailReceivedEvent(m, email));
-    } catch (Exception e) {
+      MimeMessage mimeMessage = new MimeMessage(Session.getDefaultInstance(new Properties()),
+          data);
+      handleMimeMessage(mimeMessage);
+    } catch (MessagingException e) {
       log.error("Error while handling message! error={}", e);
     }
   }
 
-  private void sendEmailReceivedEvent(String mailbox, Email email) {
-    Optional optionalUserId = mailboxRegistry.getMailboxById(mailbox)
-        .map(MailboxRecord::getUserId);
-    if (optionalUserId.isPresent()) {
-      eventBus.post(EmailReceivedEvent.of((Long) optionalUserId.get(), email));
-    }
+  @Async("emailProcessingExecutor")
+  protected void handleMimeMessage(MimeMessage mimeMessage) {
+    final Email email = EmailConverter.mimeMessageToEmail(mimeMessage);
+    email.getRecipients().stream()
+        .map(Recipient::getAddress)
+        .map(this::getUserFromEmailAddress)
+        .filter(mailboxRegistry::exists)
+        .forEach(m -> this.sendEmailReceivedEvent(m, email));
   }
 
-  private void checkRecipientsDomain() throws RejectException {
+  private void sendEmailReceivedEvent(String mailbox, Email email) {
+    mailboxRegistry.getMailboxById(mailbox)
+        .map(MailboxRecord::getUserId)
+        .ifPresent(userId -> eventBus.post(EmailReceivedEvent.of((Long) userId, email)));
+  }
+
+  private void checkRecipients() throws RejectException {
     // check recipient domain
     Boolean hasValidRecipients = this.recipients.stream()
         .anyMatch(e -> this.getDomainFromEmailAddress(e).equals(properties.getDomain()));
@@ -93,7 +97,7 @@ public class MessageHandlerImpl implements MessageHandler {
         .map(this::getUserFromEmailAddress)
         .anyMatch(mailboxRegistry::exists);
     if (!hasValidRecipients) {
-        log.warn("Reject recipients={}", this.recipients);
+      log.warn("Reject recipients={}", this.recipients);
       throw new RejectException();
     }
   }

@@ -7,8 +7,12 @@ import lombok.ToString;
 @AllArgsConstructor
 @Getter
 @ToString
-public class MailboxUserIds {
+public class MailboxUserPair {
 
   private String mailboxId;
-  private Long telegramId;
+  private Long userId;
+
+  public static MailboxUserPair of(String mailboxId, Long telegramId) {
+    return new MailboxUserPair(mailboxId, telegramId);
+  }
 }

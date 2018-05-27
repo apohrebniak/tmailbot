@@ -1,16 +1,19 @@
 package com.github.apohrebniak.tmail.mail;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.subethamail.smtp.MessageHandlerFactory;
 import org.subethamail.smtp.server.SMTPServer;
 
 @Slf4j
-@AllArgsConstructor
+@Component
 public class MailServerStarter implements InitializingBean {
 
+  @Autowired
   private MessageHandlerFactory messageHandlerFactory;
+  @Autowired
   private SMTPProperties properties;
 
   @Override

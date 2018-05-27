@@ -1,12 +1,17 @@
 package com.github.apohrebniak.tmail.core.event;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Builder
-@Data
+@Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MailboxExpiredEvent {
 
   private String mailboxId;
   private Long userId;
+
+  public static MailboxExpiredEvent of(String mailboxId, Long userId) {
+    return new MailboxExpiredEvent(mailboxId, userId);
+  }
 }
