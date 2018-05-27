@@ -9,9 +9,9 @@ tmail:
     domain: ${DOMAIN:tmailbot.gq}
     port: ${SMTP_PORT:25}
     max_message_size: ${SMTP_MAX_MESSAGE_SIZE:0}
-  redis:
-    host: ${REDIS_HOST:localhost}
-    port: ${REDIS_PORT:6379}
+  hazelcast:
+    addresses:
+      - ${HAZELCAST_ADDRESS:localhost:5701}
   api:
     mailbox_host: ${MAILBOX_HOST:tmailbot.gq}
     time_format: "%s:%s"

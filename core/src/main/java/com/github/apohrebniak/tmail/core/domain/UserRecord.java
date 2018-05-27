@@ -9,4 +9,5 @@ public class UserRecord {
 
   private final Long id;
   private final String mailboxId;
+    private final Long ttl;
 }
