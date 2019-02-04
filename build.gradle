@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.0.RELEASE'
+        springBootVersion = '2.1.2.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -24,8 +24,8 @@ allprojects {
     apply plugin: 'idea'
     apply plugin: 'io.spring.dependency-management'
 
-    sourceCompatibility = 1.9
-    targetCompatibility = 1.9
+    sourceCompatibility = 11
+    targetCompatibility = 11
 
     repositories {
         mavenCentral()
@@ -49,10 +49,10 @@ allprojects {
         compile('org.springframework:spring-web')
         compile('com.fasterxml.jackson.core:jackson-databind:2.9.4')
         compile('org.subethamail:subethasmtp:3.1.7')
-        compile('com.hazelcast:hazelcast-client:3.9.4')
+        compile('com.hazelcast:hazelcast-client:3.11.1')
         compile('com.google.guava:guava:24.0-jre')
         compile('org.simplejavamail:simple-java-mail:5.0.0')
-        compileOnly('org.projectlombok:lombok')
+        compileOnly('org.projectlombok:lombok:+')
         testCompile('org.springframework.boot:spring-boot-starter-test')
     }
 }
